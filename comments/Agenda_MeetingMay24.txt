@@ -1,0 +1,42 @@
+Agenda – Meeting May 24, 2017
+-	HTML framework
+		o	Scrolling switches between boxes -> no free scrolling
+		o	Christian: 
+			-	Transition between the boxes, CSS -> event
+			•	Always one box shown
+		o	Roar: 
+			-	Moving plane as a scroller, moving along while scrolling
+		o	Boxes / Panels (you name it):
+			-	1 – selecting flight, points are shown on world map
+			-	2 – flight animation + growing area animation (different forest types and stuff), (+ sth to make it more impressive, “how would it look like if many people would do this”)
+			-	3 – comparison – (statistical maps) 
+
+-	Data collection
+	o	found
+		-	Emission data gap minder – UN (roar)
+		-	Weird numbers about alge
+		-	Co2 storage (forest and landscape stuff – absolute)
+		-	Co2 absorption rate (area per year - temporal)
+		-	Population stuff -> co2 emission per person
+		-	Worldlandtrust.org -> money stuff 
+	o	Needed
+		-	Airplane emission
+		•	“standard plane” how much emission per person (no staff included)?
+
+-	Github
+	o	Github desktop 
+	o	Seems to work just fine
+
+-	Next steps
+	o	Cleaning data trying to get something to work
+	o	Improving css thing -> martin
+		-	Scrolling or “next”-clicking
+		-	Flight animation and growing area animation map
+	o	Flight selector -> christian
+		-	Equal area
+		-	Search boxes
+	•	Flight search
+		-	Points on the map
+	o	Statistics on the comparison map -> roaringman
+		-	Equal area projection
+		-	Filling with statistics and stuff
