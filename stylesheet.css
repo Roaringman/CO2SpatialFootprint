@@ -1,0 +1,97 @@
+body {
+	font-family: "Verdana";
+	background-color: #f1f1f1;
+	margin: 0;
+}
+
+img {
+	max-width: 100%;
+}
+
+ul.nav {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #238b45;
+}
+
+li.nav {
+	float: left;
+}
+
+li a.nav {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 12px 14px;
+	text-decoration: none;
+}
+
+li a.navactive {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 12px 14px;
+	text-decoration: none;
+}
+
+li a.nav:hover:not(.navactive) {
+	background-color: #41ae76;
+}
+
+li.plane {
+	background-image:url('img/airplane.svg');
+	width: 40px;
+	height: 40px;
+	background-size: 40px 40px;
+	position: absolute;
+	right: 50px;
+	top: 2px;
+}
+
+li.tree {
+	background-image:url('img/tree.svg');
+	width: 40px;
+	height: 40px;
+	background-size: 40px 40px;
+	position: absolute;
+	right: 5px;
+	top: 2px;
+}
+
+div.box1 {
+	height: 600px;
+	border-bottom-style: solid;
+	border-width: 5px;
+	border-color: #238b45;
+	padding: 12px;
+}
+
+div.box2 {
+	height: 600px;
+	border-bottom-style: solid;
+	border-width: 5px;
+	border-color: #238b45;
+	padding: 12px;
+}
+
+div.box3 {
+	height: 600px;
+	border-bottom-style: solid;
+	border-width: 5px;
+	border-color: #238b45;
+	padding: 12px;
+}
+
+div.box4 {
+	height: 600px;
+	border-bottom-style: solid;
+	border-width: 5px;
+	border-color: #238b45;
+	padding: 12px;
+}
+
+div.content {
+	padding: 12px;
+}
