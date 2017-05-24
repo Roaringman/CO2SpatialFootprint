@@ -1,0 +1,18 @@
+Domain,Climate region,"Above-ground living biomass carbon, tC·ha−1
+",,"Root + dead biomass carbon, tC·ha−1",,"Total living + dead biomass carbon, tC·ha−1",
+,,Average site data,Biome default value*,"Average site data
+",Biome default value†,"Average site data
+",Biome defaulvalue
+Tropical,Tropical wet,171 (61) n = 18,146,76 (72) n = 7,67,231 (75) n = 7,213
+,Tropical moist,179 (96) n = 14,112,55 (66) n = 5,30,248 (100) n = 5,142
+,Tropical dry,70 n = 1,73,41 n = 1,32,111 n = 1,105
+,Tropical montane,127 (8) n = 3,71,52 (6) n = 3,60,167 (17) n = 3,112
+Subtropical,Warm temperate moist,294 (149) n = 26,108,165 (75) n = 20,63,498 (200) n = 20,171
+,Warm temperate dry,,75,,65,,140
+,Warm temperate montane,,69,,63,,132
+Temperate,Cool temperate moist,377 (182) n = 18,155,265 (162) n = 18,78,642 (294) n = 18,233
+,Cool temperate dry,176 (102) n = 3,59,102 (77) n = 3,62,278 (173) n = 3,121
+,Cool temperate montane,147 n = 1,61,,63,153 n = 1,124
+Boreal,Boreal moist,64 (28) n = 28,24,37 (16) n =14,75,97 (34) n =14,99
+,Boreal dry,59 (36) n = 24,8,25 (12) n = 9,52,84 (39) n = 9,60
+,Boreal montane,,21,,55,,76
