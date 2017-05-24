@@ -15,7 +15,7 @@ function haversine(points){
 	var distLat = radpoints[1][0] - radpoints[0][0];
 	var a = Math.sin(distLat/2)**2 + Math.cos(radpoints[0][0]) * Math.cos(radpoints[1][0]) * Math.sin(distLon/2)**2;
 	var c = 2 * Math.asin(Math.sqrt(a));
-	var meters = (6367 * c);
-	return meters
+	var kilometers = (6367 * c);
+	return kilometers
 	
 }
