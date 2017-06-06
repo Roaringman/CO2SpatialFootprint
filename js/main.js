@@ -3,12 +3,15 @@
 
 //D3 Map
 function initmap(element) {
-var width = 960,
-    height = 500;
+    em = document.getElementById(element);
+    empar = em.parentNode;
+    console.log(empar.offsetWidth, empar.offsetHeight);
+var width = empar.offsetWidth,
+    height = empar.offsetHeight;
 
 var projection = d3.geo.miller()
-    .scale(100)
-    .translate([width / 2.7 , height / 2])
+    .scale((width/640)*100-4)
+    .translate([width / 2 , height / 2])
     .precision(0.2);
 
 var path = d3.geo.path()
@@ -16,7 +19,7 @@ var path = d3.geo.path()
 
 var graticule = d3.geo.graticule();
 
-var svg = d3.select(element).append("svg")
+var svg = d3.select("#"+element).append("svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -82,7 +85,7 @@ function haversine(points){
 window.onload = init;
 
 function init() {
-    initmap("#svgmap");
+    initmap("svgmap");
     
     
     

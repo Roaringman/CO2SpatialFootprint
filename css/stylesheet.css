@@ -98,6 +98,13 @@ div.content {
 
 /*d3 svg map design*/
 
+#svgmap {
+	position: absolute;
+	top: 100px;
+	left: 0px;
+	z-index: 0;
+}
+
 .stroke {
   fill: none;
   stroke: #000;
@@ -124,3 +131,22 @@ div.content {
   stroke: #fff;
   stroke-width: .5px;
 }
+
+/*Box1 design*/
+#origintb {
+	position: absolute;
+	top: 140px;
+	left: 50px;
+	z-index: 100;
+	
+}
+
+#desttb {
+	position: absolute;
+	top: 140px;
+	left: 290px;
+	z-index: 100;
+	
+}
+
+
