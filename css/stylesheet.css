@@ -8,6 +8,10 @@ img {
 	max-width: 100%;
 }
 
+h1 {
+	z-index: 2;
+}
+
 ul.nav {
 	list-style-type: none;
 	margin: 0;
@@ -100,7 +104,7 @@ div.content {
 
 #svgmap {
 	position: absolute;
-	top: 100px;
+	top: 12%;
 	left: 0px;
 	z-index: 0;
 }
@@ -112,7 +116,7 @@ div.content {
 }
 
 .fill {
-  fill: #fff;
+  fill: #0583ff;
 }
 
 .graticule {
@@ -132,8 +136,17 @@ div.content {
   stroke-width: .5px;
 }
 
+.svgmap circle {
+    fill: none;
+    stroke: #000000;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+    pointer-events: none;
+}
+
+
 /*Box1 design*/
-#origintb {
+#originform {
 	position: absolute;
 	top: 140px;
 	left: 50px;
@@ -141,11 +154,24 @@ div.content {
 	
 }
 
-#desttb {
+#destform {
 	position: absolute;
 	top: 140px;
 	left: 290px;
 	z-index: 100;
+	
+}
+
+#resultde, #resultor {
+	position: relative;
+	top: 6px;
+	left: 0;
+	font-size: 12px;
+	overflow-y: scroll;
+    max-height: 100px;
+    background-color: white; 
+}
+	
 	
 }
 

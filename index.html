@@ -4,7 +4,14 @@
 		<meta charset="utf-8">
 		<title>Home</title>
 		<link rel="stylesheet" type="text/css" href="css\stylesheet.css">
-
+		<script src="https://d3js.org/d3.v3.min.js"></script>
+		<script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+		<script src="https://d3js.org/topojson.v1.min.js"></script>
+		<script src="js/main.js"></script>
+		
+		<script src="libraries/d3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="libraries/d3.geo.projection.v0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="libraries/topojson.v1.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -20,10 +27,17 @@
 
 		<div class="box1">
 			<h1>Select your flight</h1>
-
-			<textarea name="flight1" id="origintb" rows="1" cols="30">Origin-airport</textarea>
 			
-			<textarea name="flight2" id="desttb" rows="1" cols="30">Destination-airport</textarea>
+			<form id="originform" onsubmit="handle" autocomplete = "off">
+				<input type="text" value = "" id="origintb" size="30" onkeyup="showResult(this.value, this, event.keyCode, event)">
+				<div id="resultor"></div>
+			</form>
+			<form id="destform" onsubmit="handle" autocomplete = "off">
+				<input type="text" id="desttb" size="30" onkeyup="showResult(this.value, this, event.keyCode, event)">
+				<div id="resultde"></div>
+			</form>
+			
+			
 			
 			<div id="svgmap">
 
@@ -50,11 +64,7 @@
 			<h1>BOX4</h1>
 		</div>
 
-		<script src="//d3js.org/d3.v3.min.js"></script>
-		<script src="//d3js.org/d3.geo.projection.v0.min.js"></script>
-		<script src="//d3js.org/topojson.v1.min.js"></script>
-		
-		<script src="js\main.js" type="text/javascript" charset="utf-8"></script>
+
 		
 	</body>
 
