@@ -13,17 +13,23 @@ var destination = {
 };
 
 //D3 Map
-function initmap(element) {
+function initmap(element, projec) {
+    
+    //empty element and set ids for the element and its parent
+    console.log("Initmap");
     document.getElementById(element).innerHTML = "";
     em = document.getElementById(element);
     empar = em.parentNode;
 
+//Getting width and height of the parent element to adjust map size
 var width = empar.offsetWidth,
     height = empar.offsetHeight-4;
+    console.log(height, (height) / 2+140);
 
-var projection = d3.geo.miller()
-    .scale((width/640)*100-4)
-    .translate([width / 2 , height / 2])
+//Set projection
+var projection = projec    
+    .scale(((width/640)*100))
+    .translate([width / 2 , (height) / 2+(height/100)])
     .precision(0.2);
 
 var path = d3.geo.path(projection)
@@ -55,21 +61,21 @@ svg.append("path")
     
 
 
-
+//Look up if origin or destination are set and sets a marker 
 if (destination.id || origin.id) {   
 
     if (origin.id) {var marks = [{long: origin.lon, lat: origin.lat}]; 
         if (destination.id) {
+            //If both are set, this code gets executed
             var marks = [{long: origin.lon, lat: origin.lat}, 
             {long: destination.lon, lat: destination.lat}];
 
                 
-                 //This is the accessor function we talked about above
+                 //If both origin and destination are chosen, the line between them is drawn.
                     var gpath = [{lat: origin.lat,long: origin.lon},{lat: destination.lat,long: destination.lon}];
                     var orp = projection([gpath[0].long,gpath[0].lat]);
                     var dep = projection([gpath[1].long,gpath[1].lat]);
                     var line = d3.select("#"+element).append("svg");
-                     console.log(orp, dep);
                      
                         svg.append("line")
                         .attr("x1", orp[0])
@@ -82,15 +88,15 @@ if (destination.id || origin.id) {
                         
                         
                            
-            
+            //calculation of the distance between the two points
            var res =  haversine([[origin.lat, origin.lon],[destination.lat, destination.lon]]);
-            console.log(res);
+            console.log("Res: " + res);
             
             }
         
     ;} else if (destination.id) {var marks = [{long: destination.lon, lat: destination.lat}];} 
     
-    console.log(marks);
+    //actual marker will be set, according to what has been saved in the marks list
     svg.selectAll(".mark")
         .data(marks)
         .enter()
@@ -98,10 +104,15 @@ if (destination.id || origin.id) {
         .attr('class','mark')
         .attr('width', 20)
         .attr('height', 20)
+        .attr('y', -20)
+        .attr('x', -5)
         .attr("xlink:href",'https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/24x24/DrawingPin1_Blue.png')
         .attr("transform", function(d) {return "translate(" + projection([d.long,d.lat]) + ")";});     
 };
 
+
+//Selecting of the world map json and its drawing on the svg element
+//World map json does not contain any info about the countries!
 d3.json("data/world-countries.json", function(error, world) {
   if (error) throw error;
 
@@ -140,13 +151,17 @@ function haversine(points){
 	return kilometers;
 }
 
-//Init
+//Init ---------------------------------------------------------------------------------------------
 
 window.onload = init;
 
 function init() {
-    initmap("svgmap");
     
+    //Starts the map with a set parent element and a set projection
+    initmap("svgmap", d3.geo.miller());
+    
+    //Creates a second map with another projection (for some reason no land in the map ?)
+    initmap("secondmap", d3.geo.gnomonic());
  
 }
 
@@ -154,27 +169,37 @@ function init() {
 function showResult(str, box, key, e) {
     e.preventDefault();
     
+    //Function gets called, when something is typed in either of the input boxes
     
-    
+    //Sets ids for the result boxes and the origin input
     var rena = ["resultor", "resultde"];
     if (box.id=="origintb") {var resuif = rena[0];}
     else {var resuif = rena[1];};
     var resultbox = document.getElementById(resuif);
 
+    //Detecting of certain key stokes (Enter = 13, Esc=27), but thats not working somehow
     if (key==13 && resultbox.innerHTML !== "") {alert("Choose an airport from the list. If your airport is not listed, check your input for spelling errors or try another name.");}
     else if (key==27) {     
         document.getElementById(rena[0]).innerHTML = "";
         document.getElementById(rena[1]).innerHTML = "";
         return;}
     
-     
-    document.getElementById(rena[0]).innerHTML = "";
-    document.getElementById(rena[1]).innerHTML = "";   
     
-        
+    //Emptying of the result elements
+    document.getElementById(rena[0]).innerHTML = "";
+    document.getElementById(rena[0]).style.display = 'none';   
+    document.getElementById(rena[1]).innerHTML = "";
+    document.getElementById(rena[1]).style.display = 'none';   
+    
+    //Selecting the data from the airports json 
     d3.json("data/airports.json", function(error, data) {
     if (error) throw error;
+    //Search does not start for less than three characters
     if (str.length<3) {return; };
+    
+    //Search is handled in lower case (so typos wont matter)
+    str = str.toLowerCase();
+    //Compares all elements (name, city, county, and the abbreviations) of the json with the typed string (str)
     for(var i=0,j=data.length; i<j; i++){
         dataid=data[i].id;
         datain=data[i].name;
@@ -183,19 +208,23 @@ function showResult(str, box, key, e) {
         dataia=data[i].ak || "---";
         dataib=data[i].lak || "----";
 
-       
-      if (datain.indexOf(str) !==-1 ||
-            dataic.indexOf(str) !==-1 ||
-            datail.indexOf(str) !==-1 ||
-            dataia.indexOf(str) !==-1 ||
-            dataib.indexOf(str) !==-1) 
+      //If indexOf(str) is larger than -1 the result includes the string str
+      if (datain.toLowerCase().indexOf(str) !==-1 ||
+            dataic.toLowerCase().indexOf(str) !==-1 ||
+            datail.toLowerCase().indexOf(str) !==-1 ||
+            dataia.toLowerCase().indexOf(str) !==-1 ||
+            dataib.toLowerCase().indexOf(str) !==-1) 
       {
-            resultbox.innerHTML += "<a id='" + i + "'onClick='insertresult(this)'>" + datain + " (" + dataia + ") / " + dataic + " / " + datail + "<a></br>"; 
+          //append the found results to the resultbox
+            resultbox.innerHTML += "<a id='" + i + "'onClick='insertresult(this)'>" + datain + " (" + dataia + ") / " + dataic + " / " + datail + "<a></br>";
+            
+            //To insert the result directly press Enter (13) or Tab (9) - not working! 
                    if (key == 13 || key == 9) {
                   document.getElementById(box).value = datain + " (" + dataia + ") / " + dataic + " / " + datail;
                   return;
               }
-             
+              
+        resultbox.style.display = "block";     
               
           };
     };
@@ -203,11 +232,13 @@ function showResult(str, box, key, e) {
     });
 };
 
+//This function should prevent default key functions in the textbox but doesnt
 function handle(e) {e.preventDefault();};
 
+//The function to insert a chosen result into the textbox and saves the objects origin and destination which contain all infos about those
 function insertresult(a) {
 
-    
+    //Selecting the airport json
     d3.json("data/airports.json", function(error, data) {
          if (error) throw error;
         var dataid=data[a.id].id;
@@ -217,6 +248,7 @@ function insertresult(a) {
         var dataia=data[a.id].ak || "---";
         var dataib=data[a.id].lak || "----";
         
+        //Depeding on which reultbox has been clicked on the destination or origin will be set.
             if(a.parentNode.id == "resultor") {document.getElementById("origintb").value = datain + " (" + dataia + ") / " + dataic + " / " + datail;
             origin = {
                 id: dataid,
@@ -226,14 +258,11 @@ function insertresult(a) {
                 
             };
 
-          document.getElementById(a.parentNode.id).innerHTML = "";
+          document.getElementById(a.parentNode.id).style.display = "none";
+          document.getElementById(a.parentNode.id).innerHTML = ""; 
             
+            initmap("svgmap", d3.geo.miller());
             
-            initmap("svgmap");
-            
-            
-
-           
            } else {document.getElementById("desttb").value = datain + " (" + dataia + ") / " + dataic + " / " + datail;
                 destination = {
                     id: dataid,
@@ -243,13 +272,13 @@ function insertresult(a) {
                 
                 };
             
-            initmap("svgmap");
+            initmap("svgmap", d3.geo.miller());
                 
             };
       
+          
+          document.getElementById(a.parentNode.id).style.display = "none";
           document.getElementById(a.parentNode.id).innerHTML = "";
-
-
     });
 
 };

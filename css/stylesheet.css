@@ -9,6 +9,9 @@ img {
 }
 
 h1 {
+	position: absolute;
+	color: white; 
+	left: 5%; 
 	z-index: 2;
 }
 
@@ -18,6 +21,8 @@ ul.nav {
 	padding: 0;
 	overflow: hidden;
 	background-color: #238b45;
+	z-index: 10;
+	position: relative;
 }
 
 li.nav {
@@ -104,9 +109,10 @@ div.content {
 
 #svgmap {
 	position: absolute;
-	top: 12%;
+	top: 9.5%;
 	left: 0px;
 	z-index: 0;
+	overflow: hidden;
 }
 
 .stroke {
@@ -136,6 +142,7 @@ div.content {
   stroke-width: .5px;
 }
 
+/* not used, but possible markers*/
 .svgmap circle {
     fill: none;
     stroke: #000000;
@@ -170,6 +177,7 @@ div.content {
 	overflow-y: scroll;
     max-height: 100px;
     background-color: white; 
+    display: none; 
 }
 	
 	
