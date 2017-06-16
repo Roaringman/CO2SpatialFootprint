@@ -26,7 +26,7 @@ var projection = d3.geo.miller()
     .translate([width / 2 , height / 2])
     .precision(0.2);
 
-var path = d3.geo.path()
+var path = d3.geo.path(projection)
     .projection(projection);
 
 var graticule = d3.geo.graticule();
@@ -57,7 +57,7 @@ svg.append("path")
 
 
 if (destination.id || origin.id) {   
-    console.log(origin, destination);
+
     if (origin.id) {var marks = [{long: origin.lon, lat: origin.lat}]; 
         if (destination.id) {
             var marks = [{long: origin.lon, lat: origin.lat}, 
@@ -65,29 +65,32 @@ if (destination.id || origin.id) {
 
                 
                  //This is the accessor function we talked about above
-                 var lineFunction = d3.svg.line()
-                         .x(function(d) { return d.long; })
-                         .y(function(d) { return d.lat; })
-                         .interpolate("linear")
-                          ;
-                                                 
+                    var gpath = [{lat: origin.lat,long: origin.lon},{lat: destination.lat,long: destination.lon}];
+                    var orp = projection([gpath[0].long,gpath[0].lat]);
+                    var dep = projection([gpath[1].long,gpath[1].lat]);
+                    var line = d3.select("#"+element).append("svg");
+                     console.log(orp, dep);
+                     
+                        svg.append("line")
+                        .attr("x1", orp[0])
+                        .attr("y1", orp[1])
+                        .attr("x2", dep[0])
+                        .attr("y2", dep[1])
+                        .attr("stroke-width", 2)
+                        .attr("stroke", "red");
+    
                         
-                        var lineGraph = svg.append("path")
-                           .attr("d", lineFunction(marks))
-                           .attr("stroke", "red")
-                           .attr("stroke-width", 2)
-                           .attr("fill", "none")
-                           ;
+                        
                            
-                        console.log(lineGraph);
             
-            
+           var res =  haversine([[origin.lat, origin.lon],[destination.lat, destination.lon]]);
+            console.log(res);
             
             }
         
     ;} else if (destination.id) {var marks = [{long: destination.lon, lat: destination.lat}];} 
     
-    
+    console.log(marks);
     svg.selectAll(".mark")
         .data(marks)
         .enter()
@@ -227,9 +230,9 @@ function insertresult(a) {
             
             
             initmap("svgmap");
-           
-           
-           
+            
+            
+
            
            } else {document.getElementById("desttb").value = datain + " (" + dataia + ") / " + dataic + " / " + datail;
                 destination = {
