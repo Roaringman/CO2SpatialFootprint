@@ -69,7 +69,6 @@ if (destination.id || origin.id) {
             //If both are set, this code gets executed
             var marks = [{long: origin.lon, lat: origin.lat}, 
             {long: destination.lon, lat: destination.lat}];
-
                 
                  //If both origin and destination are chosen, the line between them is drawn.
                     var gpath = [{lat: origin.lat,long: origin.lon},{lat: destination.lat,long: destination.lon}];
@@ -96,7 +95,7 @@ if (destination.id || origin.id) {
         
     ;} else if (destination.id) {var marks = [{long: destination.lon, lat: destination.lat}];} 
     
-    //actual marker will be set, according to what has been saved in the marks list
+    //actual marker will be set, according to what has been saved in the marks list. Original Marker: 'https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/24x24/DrawingPin1_Blue.png'
     svg.selectAll(".mark")
         .data(marks)
         .enter()
@@ -104,9 +103,9 @@ if (destination.id || origin.id) {
         .attr('class','mark')
         .attr('width', 20)
         .attr('height', 20)
-        .attr('y', -20)
-        .attr('x', -5)
-        .attr("xlink:href",'https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/24x24/DrawingPin1_Blue.png')
+        .attr('y', -17)
+        .attr('x', -10)
+        .attr("xlink:href","img/Airport-pin.svg")
         .attr("transform", function(d) {return "translate(" + projection([d.long,d.lat]) + ")";});     
 };
 
@@ -234,6 +233,7 @@ function showResult(str, box, key, e) {
 
 //This function should prevent default key functions in the textbox but doesnt
 function handle(e) {e.preventDefault();};
+
 
 //The function to insert a chosen result into the textbox and saves the objects origin and destination which contain all infos about those
 function insertresult(a) {

@@ -40,12 +40,12 @@
 		<div class="box1">
 			<h1>Select your flight</h1>
 			
-			<form id="originform" onsubmit="handle" autocomplete = "off">
-				<input type="text" value = "" id="origintb" size="30" onkeyup="showResult(this.value, this, event.keyCode, event)">
+			<form id="originform" onsubmit="handle" autocomplete = "off"  >
+				<input type="text" placeholder="Start Airport" value = "" id="origintb" size="30" onkeyup="showResult(this.value, this, event.keyCode, event)">
 				<div id="resultor"></div>
 			</form>
-			<form id="destform" onsubmit="handle" autocomplete = "off">
-				<input type="text" id="desttb" size="30" onkeyup="showResult(this.value, this, event.keyCode, event)">
+			<form id="destform" onsubmit="handle" autocomplete = "off"  >
+				<input type="text" id="desttb" size="30" placeholder="Destination Airport" onkeyup="showResult(this.value, this, event.keyCode, event)">
 				<div id="resultde"></div>
 			</form>
 			

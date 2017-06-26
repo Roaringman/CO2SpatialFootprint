@@ -122,18 +122,18 @@ div.content {
 }
 
 .fill {
-  fill: #0583ff;
+  fill: #639eff;
 }
 
 .graticule {
   fill: none;
-  stroke: #777;
+  stroke: #9ec2ff;
   stroke-width: .5px;
   stroke-opacity: .5;
 }
 
 .land {
-  fill: #222;
+  fill: #036b25;
 }
 
 .boundary {
@@ -168,6 +168,25 @@ div.content {
 	z-index: 100;
 	
 }
+
+/*Little bit responsive*/
+@media (max-width: 680px) {
+	h1 {
+		color: black;
+		margin: 5px;
+	}
+	#originform {
+		top: 110px;
+		left: 30px;
+	}
+	#destform {
+		top: 135px;
+		left: 30px;		
+	}
+	
+	
+}
+
 
 #resultde, #resultor {
 	position: relative;
