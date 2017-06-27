@@ -98,8 +98,6 @@ div.content {
 	position: absolute;
 	top: 9.5%;
 	left: 0px;
-	z-index: 0;
-	overflow: hidden;
 }
 
 .box1 .box4 {position:relative;}
@@ -141,7 +139,7 @@ div.content {
 /* not used, but possible markers*/
 .svgmap circle {
     fill: none;
-    stroke: #000000;
+    stroke: orange;
     stroke-width: 0.1;
     stroke-opacity: 0.5;
     pointer-events: none;
@@ -159,8 +157,8 @@ div.content {
 
 #destform {
 	position: absolute;
-	top: 140px;
-	left: 1100px;
+	top: 200px;
+	left: 50px;
 	z-index: 100;
 	
 }
@@ -210,6 +208,11 @@ div.content {
 
 }
 
+#planeLine {
+	height: 700px;
+}
+
+
 	
 	
 .infolabel {
@@ -225,10 +228,13 @@ div.content {
 	background-color: #bfbfbf;
 }
 
-.infolabel h1 {
+
+
+.infolabel h3{1
 	display: inline-block;
-	font-size: 2em;
+	font-size: 0.5em;
 	position: absolute;
+	top: -10px;
 	font-weight: bold;
 	font-size: 1em;
 	top: -0.2em;
@@ -262,11 +268,5 @@ div.content {
 }
 
 
- .statGraticule {
-    fill: none;
-    stroke: #79A09E;
-    stroke-width: 1;
-    stroke-dasharray: 1,1;
-  }
 
 

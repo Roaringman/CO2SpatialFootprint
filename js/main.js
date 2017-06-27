@@ -13,14 +13,8 @@ var destination = {
 };
 
 var persemission = 0;
-
-<<<<<<< HEAD
-=======
 var startTime = 0;
 
-
-
->>>>>>> d4a42cddea6f722a845c41d8eae06cddb283f05f
 
 //D3 Map
 function initmap(element, projec) {
@@ -93,18 +87,16 @@ if (destination.id || origin.id) {
                         .attr("y2", dep[1])
                         .attr("stroke-width", 2)
                         .attr("stroke", "red");
-    
-                        
-                        
-                           
+            
             //calculation of the distance between the two points
            var res =  haversine([[origin.lat, origin.lon],[destination.lat, destination.lon]]);
             console.log("Res: " + res);
-            
             }
-			
-        
+		
     ;} else if (destination.id) {var marks = [{long: destination.lon, lat: destination.lat}];}
+	
+	
+
     
     //actual marker will be set, according to what has been saved in the marks list. Original Marker: 'https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/24x24/DrawingPin1_Blue.png'
     svg.selectAll(".mark")
@@ -139,7 +131,17 @@ if (destination.id || origin.id) {
 
         //calculation of emission per capita. needed for statistical map
 		persemission = ((res*30)/215)/1000;
-        
+		//
+		/*
+		var emissionInfo = d3.select(".box1").append("div")
+		.attr("class", "Infolabel")
+		.attr("id", "emissionLabel") 
+		.html("<h1> Travel Emission </h1><br>")
+		.append("div") 
+		.attr("class", "labelvalue")
+		.attr("id", "emissionLabelvalue") 		
+		.html("<h2> You flew"+ res.toFixed(2) +" kilometers <br> That's " + persemission.toFixed(2) + "  tons CO2</h2>");
+        */
         console.log("Emission per person = " + persemission + " t");
 
         //circle drawing
@@ -217,36 +219,7 @@ function haversine(points){
 	return kilometers;
 }
 
-function frame() {
-    var interpolator = svgPathInterpolator(document.getElementById("path"));
-    var marker = document.getElementById("marker");
-    var DURATION = 15000;
-    var time = Date.now() - startTime;
-    if (time > DURATION) {
-        time = DURATION;
-    }
-    
-    var alpha = time / DURATION;
-    
-    var coords = interpolator(alpha);
-    
-    marker.setAttribute("cx", coords.x);
-    marker.setAttribute("cy", coords.y);
-    
-    if (time < DURATION) {
-        window.requestAnimationFrame(frame);
-    }
-}
 
-function svgPathInterpolator(pathElement) {
-
-    var length = path.getTotalLength();
-    
-    return function(alpha) {
-        alpha = Math.min(1, Math.max(alpha, 0));
-        return pathElement.getPointAtLength(alpha * length);
-    }
-}
 
 
 //Init ---------------------------------------------------------------------------------------------
@@ -446,8 +419,8 @@ var colorPaintCompare = function (d) {
  var emit = d.properties.Emission;
  
  if (persemission == 0){return 'lightgray'}
- else if (emit < persemission)  {return '#efedf5' }
- else {return '#756bb1'};
+ else if (emit < persemission)  {return '#f03b20' }
+ else {return '#ffeda0'};
 };
 
 
@@ -464,7 +437,7 @@ function highlight(d){
 	var infolabel = d3.select(".box4").append("div")
 		.attr("class", "infolabel")
 		.attr("id", "label") 
-		.html("<h1>"+labelTitle+"</h1>")
+		.html("<h3>"+labelTitle+"</h3>")
 		.append("div") 
 		.attr("class", "labelvalue") 
 		.html("<h2> "+ d.properties.SOV_A3 +"<br>" + labelEmission + "  tons CO2</h2>");
@@ -477,20 +450,33 @@ function dehighlight(){
 	d3.select("#label").remove();
 }
 
-onload= legendDemo();
-  function legendDemo() {
+function frame() {
+    var interpolator = svgPathInterpolator(document.getElementById("path"));
+    var marker = document.getElementById("marker");
+    var DURATION = 30000;
+    var time = Date.now() - startTime;
+    if (time > DURATION) {
+        time = DURATION;
+    }
+    
+    var alpha = time / DURATION;
+    
+    var coords = interpolator(alpha);
+    
+   marker.setAttribute("cx", coords.x);
+   marker.setAttribute("cy", coords.y);
+    
+    if (time < DURATION) {
+        window.requestAnimationFrame(frame);
+    }
+}
 
-  sampleNumerical = [1,2.5,5,10,20];
-  sampleThreshold=d3.scale.threshold().domain(sampleNumerical).range(['#ffffcc','#c2e699','#78c679','#31a354','#006837']);
-  horizontalLegend = d3.svg.legend().units("Miles").cellWidth(80).cellHeight(25).inputScale(sampleThreshold).cellStepping(100);
+function svgPathInterpolator(pathElement) {
 
-  d3.select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(horizontalLegend);
-
-  sampleCategoricalData = ["Something","Something Else", "Another", "This", "That", "Etc"]
-  sampleOrdinal = d3.scale.category20().domain(sampleCategoricalData);
-
-  verticalLegend = d3.svg.legend().labelFormat("none").cellPadding(5).orientation("vertical").units("Things in a List").cellWidth(25).cellHeight(18).inputScale(sampleOrdinal).cellStepping(10);
-
-  d3.select("svg").append("g").attr("transform", "translate(50,140)").attr("class", "legend").call(verticalLegend);
-
-  }
+    var length = path.getTotalLength();
+    
+    return function(alpha) {
+        alpha = Math.min(1, Math.max(alpha, 0));
+        return pathElement.getPointAtLength(alpha * length);
+    }
+}
