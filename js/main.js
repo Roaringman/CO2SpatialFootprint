@@ -14,6 +14,13 @@ var destination = {
 
 var persemission = 0;
 
+<<<<<<< HEAD
+=======
+var startTime = 0;
+
+
+
+>>>>>>> d4a42cddea6f722a845c41d8eae06cddb283f05f
 
 //D3 Map
 function initmap(element, projec) {
@@ -141,11 +148,23 @@ if (destination.id || origin.id) {
             .enter()
             .append('circle')
             .attr('class', 'circle')
-            .attr('r', radius)
             .attr('cy', y)
             .attr('cx', x)
             .attr("transform", function(d) {return "translate(" + projection([x,y]) + ")";})
+            .attr('r',1)
+            .transition()
+            .duration(15000)
+            .attr('r', radius)
             ;
+
+        //plane animation
+
+        startTime = Date.now();
+
+
+        //start animation
+
+  
 
 
     }
@@ -169,9 +188,12 @@ if (destination.id || origin.id) {
           .attr("d", path);
     });
 
+    frame();
     //returning to global variable
     
 };
+
+
 
 
 //Helper functions
@@ -194,6 +216,38 @@ function haversine(points){
 	var kilometers = (6367 * c); //Radius of earth
 	return kilometers;
 }
+
+function frame() {
+    var interpolator = svgPathInterpolator(document.getElementById("path"));
+    var marker = document.getElementById("marker");
+    var DURATION = 15000;
+    var time = Date.now() - startTime;
+    if (time > DURATION) {
+        time = DURATION;
+    }
+    
+    var alpha = time / DURATION;
+    
+    var coords = interpolator(alpha);
+    
+    marker.setAttribute("cx", coords.x);
+    marker.setAttribute("cy", coords.y);
+    
+    if (time < DURATION) {
+        window.requestAnimationFrame(frame);
+    }
+}
+
+function svgPathInterpolator(pathElement) {
+
+    var length = path.getTotalLength();
+    
+    return function(alpha) {
+        alpha = Math.min(1, Math.max(alpha, 0));
+        return pathElement.getPointAtLength(alpha * length);
+    }
+}
+
 
 //Init ---------------------------------------------------------------------------------------------
 

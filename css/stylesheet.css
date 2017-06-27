@@ -91,6 +91,7 @@ div.content {
 	padding: 12px;
 }
 
+
 /*d3 svg map design*/
 
 #svgmap {
@@ -249,6 +250,16 @@ div.content {
     stroke-opacity: 0.5;
 }
 
+
+.plane {
+	background-image:url('img/airplane.svg');
+	width: 40px;
+	height: 40px;
+	background-size: 40px 40px;
+	position: absolute;
+	right: 50px;
+	top: 2px;
+}
 
 
  .statGraticule {
