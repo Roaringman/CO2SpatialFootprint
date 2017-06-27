@@ -12,6 +12,8 @@ var destination = {
     lon: ""
 };
 
+var persemission = 0
+
 //D3 Map
 function initmap(element, projec) {
     
@@ -93,7 +95,7 @@ if (destination.id || origin.id) {
             
             }
         
-    ;} else if (destination.id) {var marks = [{long: destination.lon, lat: destination.lat}];} 
+    ;} else if (destination.id) {var marks = [{long: destination.lon, lat: destination.lat}];}
     
     //actual marker will be set, according to what has been saved in the marks list. Original Marker: 'https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/24x24/DrawingPin1_Blue.png'
     svg.selectAll(".mark")
@@ -109,23 +111,63 @@ if (destination.id || origin.id) {
         .attr("transform", function(d) {return "translate(" + projection([d.long,d.lat]) + ")";});     
 };
 
+    //positioning of the circle that is to be created. position in brazilian rainforest
+    var y = -10 
+    var x = -45
 
-//Selecting of the world map json and its drawing on the svg element
-//World map json does not contain any info about the countries!
-d3.json("data/world-countries.json", function(error, world) {
-  if (error) throw error;
 
-  svg.insert("path", ".graticule")
-      .datum(topojson.feature(world, world.objects.land))
-      .attr("class", "land")
-      .attr("d", path);
+    //circle creation once destination and origin are set up and the distance is calculated
+    if (destination.id && origin.id) {
+        var circs = [100];
+        var radius = Math.sqrt(((res*30)/2000)/(Math.PI)); //formula for calculating the radius. 30kg emission per km of a plane. 2000kg/km² biomass carbon
+        var area = (radius*radius)*Math.PI;
 
-  svg.insert("path", ".graticule")
-      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
-      .attr("class", "boundary")
-      .attr("d", path);
-});
+        //output log
+        console.log("Circle calculation: Radius = SQRT((Distance*kg Co2 per km)/kg C per km²)/PI)");
+        console.log("Radius = SQRT((" + res + " * 30)/ 2000)/PI)" );
+        console.log("Radius = " + radius);
+        console.log("Area = " + area + " km²");
 
+        //calculation of emission per capita. needed for statistical map
+        var persemission = ((res*30)/215)/1000;
+        console.log("Emission per person = " + persemission + " t");
+
+        //circle drawing
+        svg.selectAll(".circle")
+            .data(circs)
+            .enter()
+            .append('circle')
+            .attr('class', 'circle')
+            .attr('r', radius)
+            .attr('cy', y)
+            .attr('cx', x)
+            .attr("transform", function(d) {return "translate(" + projection([x,y]) + ")";})
+            ;
+
+
+    }
+
+    //else if (element == "svgmap") {initmap("secondmap", d3.geo.miller());};
+
+
+    //Selecting of the world map json and its drawing on the svg element
+    //World map json does not contain any info about the countries!
+    d3.json("data/world-countries.json", function(error, world) {
+      if (error) throw error;
+
+      svg.insert("path", ".graticule")
+          .datum(topojson.feature(world, world.objects.land))
+          .attr("class", "land")
+          .attr("d", path);
+
+      svg.insert("path", ".graticule")
+          .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+          .attr("class", "boundary")
+          .attr("d", path);
+    });
+
+    //returning to global variable
+    return persemission
 };
 
 
@@ -178,9 +220,6 @@ function init() {
     
     //Starts the map with a set parent element and a set projection
     initmap("svgmap", d3.geo.miller());
-    
-    //Creates a second map with another projection (for some reason no land in the map ?)
-    initmap("secondmap", d3.geo.gnomonic());
  
 }
 
