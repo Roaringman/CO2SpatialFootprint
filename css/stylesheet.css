@@ -69,7 +69,7 @@ li.tree {
 	top: 2px;
 }
 
-div.box1 {
+.box1 {
 	height: 600px;
 	border-bottom-style: solid;
 	border-width: 5px;
@@ -77,23 +77,9 @@ div.box1 {
 	padding: 12px;
 }
 
-div.box2 {
-	height: 600px;
-	border-bottom-style: solid;
-	border-width: 5px;
-	border-color: #238b45;
-	padding: 12px;
-}
 
-div.box3 {
-	height: 600px;
-	border-bottom-style: solid;
-	border-width: 5px;
-	border-color: #238b45;
-	padding: 12px;
-}
 
-div.box4 {
+.box4 {
 	height: 600px;
 	border-bottom-style: solid;
 	border-width: 5px;
@@ -114,6 +100,9 @@ div.content {
 	z-index: 0;
 	overflow: hidden;
 }
+
+.box1 .box4 {position:relative;}
+
 
 .stroke {
   fill: none;
@@ -142,6 +131,12 @@ div.content {
   stroke-width: .5px;
 }
 
+.statmap {
+	stroke: #fff;
+	stroke-width: .5px;
+	fill: #036b25;
+}
+
 /* not used, but possible markers*/
 .svgmap circle {
     fill: none;
@@ -164,7 +159,7 @@ div.content {
 #destform {
 	position: absolute;
 	top: 140px;
-	left: 290px;
+	left: 1100px;
 	z-index: 100;
 	
 }
@@ -198,36 +193,55 @@ div.content {
     background-color: white; 
     display: none; 
 }
+
+#emissionButton {
+	position: absolute;
+	top: 900px;
+	left: 30px;
+
+}
+
+#compareButton{
+	position: absolute;
+	top: 925px;
+	left: 30px;
+
+
+}
+
 	
 	
 .infolabel {
 	position: absolute;
-	top:50px;
+	top: 1100px;
 	left: 30px;
-	width: 200px;
-	height: 70px;
+	width: 225px;
+	height: 75px;
 	color: rgb(217, 5, 4);
 	border: solid thin #fff;
 	padding: 5px;
 	font-weight: bold;
+	background-color: #bfbfbf;
 }
 
 .infolabel h1 {
 	display: inline-block;
-	font-size: 1em;
+	font-size: 2em;
 	position: absolute;
 	font-weight: bold;
-	font-size: 1.5em;
+	font-size: 1em;
 	top: -0.2em;
 }
 
-.labelvalue {
+.labelvalue h2{
 	display: inline-block;
-	font-size: 1.3em;
+	font-size: 1em;
 	position: absolute;
 	float:left;
 	left: 1em;
-	top:2em;
+	top:1em;
+	color: #808080;
+	
 .circle {
     fill: none;
     stroke: #bbbbbb;
@@ -235,11 +249,13 @@ div.content {
     stroke-opacity: 0.5;
 }
 
-.legend {
-	top: 100px;
-
-}
 
 
+ .statGraticule {
+    fill: none;
+    stroke: #79A09E;
+    stroke-width: 1;
+    stroke-dasharray: 1,1;
+  }
 
 

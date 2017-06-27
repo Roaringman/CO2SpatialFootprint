@@ -38,12 +38,11 @@
 				<input type="text" placeholder="Start Airport" value = "" id="origintb" size="30" onkeyup="showResult(this.value, this, event.keyCode, event)">
 				<div id="resultor"></div>
 			</form>
+
 			<form id="destform" onsubmit="handle" autocomplete = "off"  >
 				<input type="text" id="desttb" size="30" placeholder="Destination Airport" onkeyup="showResult(this.value, this, event.keyCode, event)">
 				<div id="resultde"></div>
 			</form>
-			
-			
 			
 			<div id="svgmap">
 			</div>
@@ -53,18 +52,8 @@
 			
 		</div>
 
-
-		<div class="box2">
-			<h1>BOX2</h1>
-		</div>
-
-
-		<div class="box3">
-			<h1>BOX3</h1>
-		</div>
-
 		<div class="box4">
-			<h1>BOX4</h1>
+			<h1>Compare your emission to the world's</h1>
 			<svg class="statmap" id="map3" viewBox="0 0 800 400">
 			<g class="mapRoot"></g>
 			</svg>

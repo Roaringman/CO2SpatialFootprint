@@ -12,7 +12,8 @@ var destination = {
     lon: ""
 };
 
-var persemission = 0
+var persemission = 0;
+
 
 //D3 Map
 function initmap(element, projec) {
@@ -24,13 +25,13 @@ function initmap(element, projec) {
     empar = em.parentNode;
 
 //Getting width and height of the parent element to adjust map size
-var width = empar.offsetWidth,
-    height = empar.offsetHeight-4;
+var width = empar.offsetWidth+50,
+    height = empar.offsetHeight-50;
     console.log(height, (height) / 2+140);
 
 //Set projection
 var projection = projec    
-    .scale(((width/640)*100))
+    .scale(((width/640)*80))
     .translate([width / 2 , (height) / 2+(height/100)])
     .precision(0.2);
 
@@ -94,6 +95,7 @@ if (destination.id || origin.id) {
             console.log("Res: " + res);
             
             }
+			
         
     ;} else if (destination.id) {var marks = [{long: destination.lon, lat: destination.lat}];}
     
@@ -123,13 +125,14 @@ if (destination.id || origin.id) {
         var area = (radius*radius)*Math.PI;
 
         //output log
-        console.log("Circle calculation: Radius = SQRT((Distance*kg Co2 per km)/kg C per km²)/PI)");
-        console.log("Radius = SQRT((" + res + " * 30)/ 2000)/PI)" );
-        console.log("Radius = " + radius);
-        console.log("Area = " + area + " km²");
+        //console.log("Circle calculation: Radius = SQRT((Distance*kg Co2 per km)/kg C per km²)/PI)");
+        //console.log("Radius = SQRT((" + res + " * 30)/ 2000)/PI)" );
+        //console.log("Radius = " + radius);
+        //console.log("Area = " + area + " km²");
 
         //calculation of emission per capita. needed for statistical map
-        var persemission = ((res*30)/215)/1000;
+		persemission = ((res*30)/215)/1000;
+        
         console.log("Emission per person = " + persemission + " t");
 
         //circle drawing
@@ -167,7 +170,7 @@ if (destination.id || origin.id) {
     });
 
     //returning to global variable
-    return persemission
+    
 };
 
 
@@ -202,8 +205,6 @@ function init() {
 	//Initial map
 	drawMap(world.features, colorPaintAll);
 	
-	createLegend();
-	
 	d3.select("#emissionButton").on("click", function() {
 		console.log("clicked!");
         drawMap(world.features, colorPaintAll);
@@ -219,7 +220,7 @@ function init() {
 
     
     //Starts the map with a set parent element and a set projection
-    initmap("svgmap", d3.geo.miller());
+    initmap("svgmap", d3.geoEckert5());
  
 }
 
@@ -320,7 +321,7 @@ function insertresult(a) {
           document.getElementById(a.parentNode.id).style.display = "none";
           document.getElementById(a.parentNode.id).innerHTML = ""; 
             
-            initmap("svgmap", d3.geo.miller());
+            initmap("svgmap", d3.geoEckert5());
             
            } else {document.getElementById("desttb").value = datain + " (" + dataia + ") / " + dataic + " / " + datail;
                 destination = {
@@ -331,7 +332,7 @@ function insertresult(a) {
                 
                 };
             
-            initmap("svgmap", d3.geo.miller());
+            initmap("svgmap", d3.geoEckert5());
                 
             };
       
@@ -353,6 +354,9 @@ var projection =  d3.geoEckert5()
 function drawMap(data, colorPicker) {
     var pathGenerator = d3.geoPath()
         .projection(projection);
+		
+	var statGraticule = d3.geo.graticule()
+      .step([10, 10]);
     
     var selection = d3.select('.statmap .mapRoot')
         .selectAll("path")
@@ -378,14 +382,18 @@ var thresholdColors = d3.scale.quantize()
  
  var colorPaintAll = function (d) {
  var color = d.properties.Emission;
- return thresholdColors(parseInt(color));
+ if (color){
+ return thresholdColors(parseInt(color));}
+ else{return "lightgray"}
 };
 
 var colorPaintCompare = function (d) {
  var colorm = d.properties.income_med_m;
  var emit = d.properties.Emission;
- if (emit > 2){return '#ffffcc'}
- else {return "#006837"};
+ 
+ if (persemission == 0){return 'lightgray'}
+ else if (emit < persemission)  {return '#efedf5' }
+ else {return '#756bb1'};
 };
 
 
@@ -395,10 +403,9 @@ function highlight(d){
 	active = d3.select(this).classed("active", true);
 	var color = d3.rgb(d3.select(this).style("fill")); 
 	active.style("fill", color.darker());
-	var labelTitle = "";
 	
 	var labelTitle = "Emission per capita";
-	
+	var labelEmission = Number(eval("d.properties.Emission")).toFixed(2);
 	//adding a label
 	var infolabel = d3.select(".box4").append("div")
 		.attr("class", "infolabel")
@@ -406,7 +413,7 @@ function highlight(d){
 		.html("<h1>"+labelTitle+"</h1>")
 		.append("div") 
 		.attr("class", "labelvalue") 
-		.html(d.properties.SOV_A3 +"<br>" + eval("d.properties.Emission") + " CO2");
+		.html("<h2> "+ d.properties.SOV_A3 +"<br>" + labelEmission + "  tons CO2</h2>");
 }
 
 function dehighlight(){
@@ -416,18 +423,20 @@ function dehighlight(){
 	d3.select("#label").remove();
 }
 
-var legendWidth =100;
-var legendHeight =200;
+onload= legendDemo();
+  function legendDemo() {
 
-function createLegend (){
-	var legend = d3.select(".box4").append("svg")
-		.attr("width", legendWidth)
-		.attr("height", legendHeight)
-		.attr("class", "legend");
-	
-}
+  sampleNumerical = [1,2.5,5,10,20];
+  sampleThreshold=d3.scale.threshold().domain(sampleNumerical).range(['#ffffcc','#c2e699','#78c679','#31a354','#006837']);
+  horizontalLegend = d3.svg.legend().units("Miles").cellWidth(80).cellHeight(25).inputScale(sampleThreshold).cellStepping(100);
 
+  d3.select("svg").append("g").attr("transform", "translate(50,70)").attr("class", "legend").call(horizontalLegend);
 
+  sampleCategoricalData = ["Something","Something Else", "Another", "This", "That", "Etc"]
+  sampleOrdinal = d3.scale.category20().domain(sampleCategoricalData);
 
+  verticalLegend = d3.svg.legend().labelFormat("none").cellPadding(5).orientation("vertical").units("Things in a List").cellWidth(25).cellHeight(18).inputScale(sampleOrdinal).cellStepping(10);
 
+  d3.select("svg").append("g").attr("transform", "translate(50,140)").attr("class", "legend").call(verticalLegend);
 
+  }
