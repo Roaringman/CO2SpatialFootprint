@@ -440,7 +440,7 @@ function highlight(d){
 		.html("<h3>"+labelTitle+"</h3>")
 		.append("div") 
 		.attr("class", "labelvalue") 
-		.html("<h2> "+ d.properties.SOV_A3 +"<br>" + labelEmission + "  tons CO2</h2>");
+		.html("<h2> "+ d.properties.SOV_A3 +"<br>" + labelEmission + "  tons CO2<br> You emitted: "+persemission.toFixed(2)+ " tons CO2</h2>");
 }
 
 function dehighlight(){
