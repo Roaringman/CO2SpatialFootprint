@@ -160,6 +160,7 @@ function init() {
 	//Initial map
 	drawMap(world.features, colorPaintAll);
 	
+	createLegend();
 	
 	d3.select("#emissionButton").on("click", function() {
 		console.log("clicked!");
@@ -356,15 +357,11 @@ function highlight(d){
 	var color = d3.rgb(d3.select(this).style("fill")); 
 	active.style("fill", color.darker());
 	var labelTitle = "";
-
-	/*if (expressed == "income_med_m"){labelTitle = "Median male income"}
-	else if (expressed == "income_med_f"){labelTitle = "Median female income"} 
-	else {labelTitle = "Overall median income"}*/
 	
 	var labelTitle = "Emission per capita";
 	
 	//adding a label
-	var infolabel = d3.select("body").append("div")
+	var infolabel = d3.select(".box4").append("div")
 		.attr("class", "infolabel")
 		.attr("id", "label") 
 		.html("<h1>"+labelTitle+"</h1>")
@@ -379,6 +376,19 @@ function dehighlight(){
 	active.style("fill", color.brighter());
 	d3.select("#label").remove();
 }
+
+var legendWidth =100;
+var legendHeight =200;
+
+function createLegend (){
+	var legend = d3.select(".box4").append("svg")
+		.attr("width", legendWidth)
+		.attr("height", legendHeight)
+		.attr("class", "legend");
+	
+}
+
+
 
 
 

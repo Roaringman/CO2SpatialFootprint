@@ -202,8 +202,8 @@ div.content {
 	
 .infolabel {
 	position: absolute;
-	top:100px;
-	left: 30%;
+	top:50px;
+	left: 30px;
 	width: 200px;
 	height: 70px;
 	color: rgb(217, 5, 4);
@@ -229,5 +229,12 @@ div.content {
 	left: 1em;
 	top:2em;
 }
+
+.legend {
+	top: 100px;
+
+}
+
+
 
 
