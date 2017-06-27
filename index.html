@@ -7,9 +7,7 @@
 		<script src="https://d3js.org/d3.v3.min.js"></script>
 		<script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
 		<script src="https://d3js.org/topojson.v1.min.js"></script>
-		<script src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
-			
-		
+		<script src="js/main.js"></script>
 		
 		<script src="libraries/d3.js" type="text/javascript" charset="utf-8"></script>
 		<script src="libraries/d3-geo.js" type="text/javascript" charset="utf-8"></script>
@@ -18,14 +16,6 @@
 
 		<script src="libraries/topojson.v1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="libraries/mapmap.js"></script>	
-
-		<script src="js/main.js"></script>
-		<style type="text/css">
-			#ani_map {
-    			width: 400px;
-    			height: 400px;
-			}
-		</style>
 
 	</head>
 
@@ -55,8 +45,6 @@
 			
 			
 			<div id="svgmap">
-
-				
 			</div>
 			
 			
@@ -66,18 +54,12 @@
 
 
 		<div class="box2">
-			<h1>Flight Animation</h1>
-			
-			<div id="ani_map">
-			</div>
-			<p>This is for the prototype only. In the end the animation is supposed to be integrated into the d3 map and of course should display a route between the two chosen points. It is not planned to use the google maps api in the end. This is only used here for demonstration purposes. Berlin (origin) and New York (destination) are the examples for this route.</p>
-			<p>Also, the HTML/CSS frame needs to be adjusted to the boxes, once they are set up</p>
+			<h1>BOX2</h1>
 		</div>
 
 
 		<div class="box3">
 			<h1>BOX3</h1>
-			<div id="secondmap"></div>
 		</div>
 
 		<div class="box4">
@@ -90,114 +72,10 @@
 			<button id="compareButton">Compare</button>
 		</div>
 
-		<script>
 
-			// ------------------------ GOOGLE MAPS ANIMATION function start ------------------------
-			// To be deleted or replaced in the final version. Prototype only!!
+		</div>
 
-			var mapOptions = {
-			    center: { lat: 0, lng: 0 },
-			    zoom: 1
-			};
-			var mapEl = document.getElementById('ani_map');
-			var map = new google.maps.Map(mapEl, mapOptions);
-
-			var coords = [
-			    {lat: 52.51, lng: 13.4},
-			    {lat: 40.71, lng: -74},
-			];
-			  
-			var polyline = new google.maps.Polyline({
-			    path: coords,
-			    geodesic: true,
-			    strokeColor: '#FF0000',
-			    strokeOpacity: 1.0,
-			    strokeWeight: 2,
-			    map: map
-			});
-
-			var marker = new google.maps.Marker({
-			    position: coords[0],
-			    map: map ,
-			    icon: {
-			    	url: "img/airplane.svg",
-			    	size: new google.maps.Size(50,50),
-			    	origin: new google.maps.Point(0, 0),
-			    	anchor: new google.maps.Point(25, 25),
-			    	scaledSize: new google.maps.Size(50,50)
-			    }
-			});
-
-			// ------------------------ main program for animation ------------------------
-
-			var DURATION = 10000;
-
-			var length = google.maps.geometry.spherical.computeLength(polyline.getPath().getArray()),
-			    startTime = Date.now();
-
-			var pos = 0;
-
-			var interpolator = gPolyInterpolator(polyline);
-
-			// this function will be called in every frame
-			function frame() {
-			    var time = Date.now() - startTime;
-			    if (time > DURATION) {
-			        // stop (no new animation frame is requested
-			        return;
-			    }
-			    
-			    var pos = length * time / DURATION;
-			    
-			    var coords = interpolator(pos);
-			    
-			    marker.setPosition(coords);
-			    
-			    window.requestAnimationFrame(frame);
-			}
-
-			// start animation
-			frame();
-
-			// ------------------------ interpolation function ------------------------
-
-			// returns a function to interpolate along a google maps polyline / polygon 
-			function gPolyInterpolator(polyline) {
-			    if (!google.maps.geometry.spherical) {
-			        console.error("This function requires the google.maps.geometry.spherical library!");
-			        console.error("Load it as described at https://developers.google.com/maps/documentation/javascript/libraries");
-			        return null;
-			    }
-			    
-			    var path = polyline.getPath();
-			    
-			    return function(distance) {
-			    
-			        var numVertices = path.getLength();
-			    
-			        if (distance <= 0) return path.getAt(0);
-			        if (numVertices < 2) return path.getAt(0);
-			        
-			        var distNext = 0,
-			            distLast = 0;
-			        
-			        for (var i=1; (i < numVertices && distNext < distance); i++) {
-			            distLast = distNext;
-			            distNext += google.maps.geometry.spherical.computeDistanceBetween(path.getAt(i), path.getAt(i-1));
-			        }
-			        if (distNext < distance) {
-			            return path.getAt(numVertices-1);
-			        }
-			        
-			        var alpha = (distance-distLast)/(distNext-distLast);
-			        
-			        return google.maps.geometry.spherical.interpolate(path.getAt(i-2), path.getAt(i-1), alpha);
-			    }
-			}
-
-			// ------------------------ GOOGLE MAPS ANIMATION function end ------------------------
-
-		</script>
+		
 		
 	</body>
 
