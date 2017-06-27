@@ -7,16 +7,19 @@
 		<script src="https://d3js.org/d3.v3.min.js"></script>
 		<script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
 		<script src="https://d3js.org/topojson.v1.min.js"></script>
-		<script src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script> 
-		<script src="js/main.js"></script>
+		<script src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+			
+		
 		
 		<script src="libraries/d3.js" type="text/javascript" charset="utf-8"></script>
 		<script src="libraries/d3-geo.js" type="text/javascript" charset="utf-8"></script>
 		<script src="libraries/d3.geo.projection.v0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
 		<script src="libraries/topojson.v1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="libraries/mapmap.js"></script>	
 
-
+		<script src="js/main.js"></script>
 		<style type="text/css">
 			#ani_map {
     			width: 400px;
@@ -79,6 +82,12 @@
 
 		<div class="box4">
 			<h1>BOX4</h1>
+			<svg class="statmap" id="map3" viewBox="0 0 800 400">
+			<g class="mapRoot"></g>
+			</svg>
+			
+			<button id="emissionButton">Emission per capita</button>
+			<button id="compareButton">Compare</button>
 		</div>
 
 		<script>

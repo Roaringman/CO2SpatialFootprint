@@ -155,6 +155,25 @@ function haversine(points){
 window.onload = init;
 
 function init() {
+	
+	d3.json('data/world.geojson', function(error, world) {
+	//Initial map
+	drawMap(world.features, colorPaintAll);
+	
+	
+	d3.select("#emissionButton").on("click", function() {
+		console.log("clicked!");
+        drawMap(world.features, colorPaintAll);
+    });
+
+	d3.select("#compareButton").on("click", function(d) {
+			drawMap(world.features, colorPaintCompare);
+		});
+	
+	
+	});
+	
+
     
     //Starts the map with a set parent element and a set projection
     initmap("svgmap", d3.geo.miller());
@@ -282,3 +301,84 @@ function insertresult(a) {
     });
 
 };
+
+var statWidth = 350;
+var statHeight = 225;
+
+var projection =  d3.geoEckert5()
+	.center([0, 0])
+	.scale(125)
+	.translate([statWidth, statHeight]);
+
+function drawMap(data, colorPicker) {
+    var pathGenerator = d3.geoPath()
+        .projection(projection);
+    
+    var selection = d3.select('.statmap .mapRoot')
+        .selectAll("path")
+        .data(data)	
+    ;
+
+	selection.attr("d", pathGenerator)
+	.style("fill", colorPicker);
+    
+    // what to do with NEW elements
+    selection.enter()
+	.append("path")
+    .attr("d", pathGenerator)
+	.style("fill", colorPicker)
+	.on("mouseover", highlight)
+	.on("mouseout", dehighlight)
+	;
+}
+
+var thresholdColors = d3.scale.quantize()
+ .domain([0,40])
+ .range(['#ffffcc','#c2e699','#78c679','#31a354','#006837']);
+ 
+ var colorPaintAll = function (d) {
+ var color = d.properties.Emission;
+ return thresholdColors(parseInt(color));
+};
+
+var colorPaintCompare = function (d) {
+ var colorm = d.properties.income_med_m;
+ var emit = d.properties.Emission;
+ if (emit > 2){return '#ffffcc'}
+ else {return "#006837"};
+};
+
+
+function highlight(d){
+
+	//Adding dark "highlights" when hovering
+	active = d3.select(this).classed("active", true);
+	var color = d3.rgb(d3.select(this).style("fill")); 
+	active.style("fill", color.darker());
+	var labelTitle = "";
+
+	/*if (expressed == "income_med_m"){labelTitle = "Median male income"}
+	else if (expressed == "income_med_f"){labelTitle = "Median female income"} 
+	else {labelTitle = "Overall median income"}*/
+	
+	var labelTitle = "Emission per capita";
+	
+	//adding a label
+	var infolabel = d3.select("body").append("div")
+		.attr("class", "infolabel")
+		.attr("id", "label") 
+		.html("<h1>"+labelTitle+"</h1>")
+		.append("div") 
+		.attr("class", "labelvalue") 
+		.html(d.properties.SOV_A3 +"<br>" + eval("d.properties.Emission") + " CO2");
+}
+
+function dehighlight(){
+    active = d3.select(this).classed("active", true);
+	var color = d3.rgb(d3.select(this).style("fill")); 
+	active.style("fill", color.brighter());
+	d3.select("#label").remove();
+}
+
+
+

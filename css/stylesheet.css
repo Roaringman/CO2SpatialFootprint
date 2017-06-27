@@ -200,6 +200,34 @@ div.content {
 }
 	
 	
+.infolabel {
+	position: absolute;
+	top:100px;
+	left: 30%;
+	width: 200px;
+	height: 70px;
+	color: rgb(217, 5, 4);
+	border: solid thin #fff;
+	padding: 5px;
+	font-weight: bold;
+}
+
+.infolabel h1 {
+	display: inline-block;
+	font-size: 1em;
+	position: absolute;
+	font-weight: bold;
+	font-size: 1.5em;
+	top: -0.2em;
+}
+
+.labelvalue {
+	display: inline-block;
+	font-size: 1.3em;
+	position: absolute;
+	float:left;
+	left: 1em;
+	top:2em;
 }
 
 
